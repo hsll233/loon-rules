@@ -1,0 +1,10 @@
+#!name=小红书首页去视频
+#!desc=过滤 homefeed/trending 返回中 type=video 的项目；会让首页/推荐流不再显示这些视频
+#!author=ChatGPT
+#!date=2026-09-16
+
+[Script]
+response if ${url} ~= /\/api\/sns\/v\d+\/(homefeed|trending)/ then script("https://raw.githubusercontent.com/hsll233/loon-rules/main/scripts/xhs_filter_home_videos.js") with requires_body=true, tag="XHS Filter Home Videos"
+
+[MITM]
+hostname = rec.xiaohongshu.com, edith.xiaohongshu.com, *.xhscdn.com, *.xiaohongshu.com
