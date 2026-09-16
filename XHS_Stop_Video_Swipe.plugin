@@ -1,17 +1,15 @@
-#!name=小红书禁止连续上滑视频
-#!desc=拦截小红书视频详情页继续获取下一条视频；尽量保留主页/搜索视频的正常打开
+#!name=小红书阻止上滑视频
+#!desc=允许从首页/搜索进入视频，但阻止视频详情页继续获取下一条；包含 QUIC 回落与 MITM 配置
 #!author=ChatGPT
 #!date=2026-09-16
 
-[Rewrite]
-^https?:\/\/rec\.xiaohongshu\.com\/.*video.* - reject-dict
+[Rule]
+AND,((DOMAIN-SUFFIX,xiaohongshu.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN-SUFFIX,xhscdn.com),(PROTOCOL,QUIC)),REJECT
+AND,((IP-CIDR,121.227.107.0/24,no-resolve),(PROTOCOL,QUIC)),REJECT
 
-# 备用规则：如果上面的 rec.xiaohongshu.com 规则无效，再取消下面这一行前面的 #。
-# 注意：这个接口更激进，可能影响部分正常视频加载。
-# ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v3\/note\/videofeed.* - reject-dict
+[Rewrite]
+^https?:\/\/[^\/]+\/api\/sns\/v\d+\/note\/videofeed.* - reject-dict
 
 [MITM]
-hostname = rec.xiaohongshu.com
-
-# 如果启用上面的备用 videofeed 规则，同时把上一行改为：
-# hostname = rec.xiaohongshu.com, edith.xiaohongshu.com
+hostname = rec.xiaohongshu.com, edith.xiaohongshu.com, *.xhscdn.com, *.xiaohongshu.com, 121.227.107.*
