@@ -1,10 +1,15 @@
-#!name=小红书首页去视频
-#!desc=过滤 homefeed/trending 返回中 type=video 的项目；会让首页/推荐流不再显示这些视频
+#!name=小红书首页去视频（兼容增强版）
+#!desc=过滤 homefeed/trending 返回中的视频项目；兼容旧/新版 Loon，并尝试阻止小红书 QUIC 以便 MITM 生效
 #!author=ChatGPT
 #!date=2026-09-16
 
+[Rule]
+AND,((DOMAIN-SUFFIX,xiaohongshu.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN-SUFFIX,xhscdn.com),(PROTOCOL,QUIC)),REJECT
+AND,((IP-CIDR,121.227.107.0/24,no-resolve),(PROTOCOL,QUIC)),REJECT
+
 [Script]
-response if ${url} ~= /\/api\/sns\/v\d+\/(homefeed|trending)/ then script("https://raw.githubusercontent.com/hsll233/loon-rules/main/scripts/xhs_filter_home_videos.js") with requires_body=true, tag="XHS Filter Home Videos"
+http-response ^https?:\/\/[^\/]+\/api\/sns\/v\d+\/(homefeed|trending) script-path=https://raw.githubusercontent.com/hsll233/loon-rules/main/scripts/xhs_filter_home_videos.js,requires-body=true,timeout=20,tag=XHS_Filter_Home_Videos
 
 [MITM]
-hostname = rec.xiaohongshu.com, edith.xiaohongshu.com, *.xhscdn.com, *.xiaohongshu.com
+hostname = rec.xiaohongshu.com, edith.xiaohongshu.com, *.xhscdn.com, *.xiaohongshu.com, 121.227.107.*
