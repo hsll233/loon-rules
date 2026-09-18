@@ -1,5 +1,5 @@
-#!name=小红书首页去视频（兼容增强版）
-#!desc=过滤 homefeed/trending 返回中的视频项目；兼容旧/新版 Loon，并尝试阻止小红书 QUIC 以便 MITM 生效
+#!name=小红书｜首页视频过滤
+#!desc=过滤首页推荐与趋势流中的视频内容，仅保留图文等非视频项目；兼容新版/旧版 Loon，并包含 QUIC 回落与 MITM 配置
 #!author=ChatGPT
 #!date=2026-09-16
 
