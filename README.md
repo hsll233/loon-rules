@@ -43,3 +43,21 @@ loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fhsll233%2Floon-ru
 - 更新插件后建议彻底关闭小红书后台，再重新打开测试。
 
 两个插件可以独立订阅，也可以同时启用。
+
+## G1 ACQ（Google One · Loon 非官方适配）
+
+原项目：[crhywun/g1-acq](https://github.com/crhywun/g1-acq)。此文件仅将 Shadowrocket 模块入口改成 Loon 插件格式，核心响应改写与本地报告 JavaScript 仍引用原作者 `v7.5.0`，不包含原模块的全局 UDP 443 阻断。
+
+**Raw 订阅地址**
+
+```text
+https://raw.githubusercontent.com/hsll233/loon-rules/main/G1-ACQ-Loon-v7.5.0.plugin
+```
+
+**Loon 一键导入**
+
+```text
+loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fhsll233%2Floon-rules%2Fmain%2FG1-ACQ-Loon-v7.5.0.plugin
+```
+
+在 Loon 中停用之前直接导入的 Shadowrocket 模块，启用此插件并开启 MITM（解密 `one.google.com`）；安装并信任 Loon 根证书后，重新连接，再在浏览器打开 `https://one.google.com/g1-sku-report`。正常时应显示“本机脚本已接管”。如出现 Google 官方 404，检查插件脚本是否已加载、MITM 和证书设置。此适配尚未在实机验证，也不能保证 App Store 接受任何候选优惠 SKU。
